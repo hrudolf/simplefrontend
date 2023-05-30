@@ -37,16 +37,6 @@ jobs:
         
       - name: Build
         run: npm run build
-        
-      - name: Save version
-        id: version
-        run: echo ::set-output name=tag::$(echo $(node -p -e "require('./package.json').version"))
-        
-      - name: Increase version
-        run: npm version patch
-        
-      - name: Push new version
-        run: git push
       
       - name: Login to DockerHub
         uses: docker/login-action@v2
@@ -60,4 +50,4 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpledockertest:${{steps.version.outputs.tag}}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/simpledockertest:latest
